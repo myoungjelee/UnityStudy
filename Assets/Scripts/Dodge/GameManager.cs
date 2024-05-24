@@ -31,7 +31,7 @@ public class GameManager : MonoBehaviour
         {
             if(Input.GetKeyDown(KeyCode.R))
             {
-                SceneManager.LoadScene("Dodge");
+                SceneManager.LoadScene("TitleScene");
             }
         }
     }

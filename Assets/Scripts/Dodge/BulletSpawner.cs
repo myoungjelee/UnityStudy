@@ -22,7 +22,8 @@ public class BulletSpawner : MonoBehaviour
 
 
     void Update()
-    {  
+    {
+        transform.LookAt(targetPlayer);
         currentTime += Time.deltaTime;
 
         if(currentTime >= spawnTime)
