@@ -10,9 +10,10 @@ public class Bullet : MonoBehaviour
     void Start()
     {
         bulletRigidbody = GetComponent<Rigidbody>();
+        speed = Random.Range(5f, 20f);
         bulletRigidbody.velocity = transform.forward * speed;
 
-        Destroy(gameObject, 3.0f);
+        Destroy(gameObject, 2.0f);
     }
 
     private void OnTriggerEnter(Collider other)

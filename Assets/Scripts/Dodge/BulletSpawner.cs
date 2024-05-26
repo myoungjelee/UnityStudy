@@ -12,12 +12,14 @@ public class BulletSpawner : MonoBehaviour
     private float currentTime;
     private float spawnTime;
 
+    GameManager gameManager;
     void Start()
     {
         bulletPrefab = Resources.Load<GameObject>("Prefabs/Bullet");
         currentTime = 0f; 
         targetPlayer = FindObjectOfType<PlayerController>().transform; 
         spawnTime = Random.Range(spawnRateMin, spawnRateMax);
+        gameManager = FindObjectOfType<GameManager>();
     }
 
 
@@ -26,7 +28,7 @@ public class BulletSpawner : MonoBehaviour
         transform.LookAt(targetPlayer);
         currentTime += Time.deltaTime;
 
-        if(currentTime >= spawnTime)
+        if(currentTime >= spawnTime && gameManager.gameStart)
         {
             currentTime = 0;
             

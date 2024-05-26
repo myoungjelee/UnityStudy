@@ -42,10 +42,10 @@ public class PlayerController : MonoBehaviour
         playerRigidbody.velocity = newVelocity;
 
         // GetKeyDown 은 키를 눌렀을 때 한번만 체크
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            Die();
-        }
+        //if (Input.GetKeyDown(KeyCode.Escape))
+        //{
+        //    Die();
+        //}
 
         //if (Input.GetButtonDown("MJJump"))
         //{
@@ -58,6 +58,6 @@ public class PlayerController : MonoBehaviour
         gameObject.SetActive(false);
 
         GameManager gameManager = FindObjectOfType<GameManager>();
-        gameManager.EndGame();
+        gameManager.GameOver();
     }
 }

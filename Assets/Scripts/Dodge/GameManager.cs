@@ -1,53 +1,123 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    public GameObject gameoverText;
-    public Text timeText; 
-    public Text recordText;
+    //public GameObject gameoverText;
+    //public Text timeText; 
+    //public Text recordText;
 
-    private float surviveTime;
-    private bool isGameover;
+    //private float surviveTime;
+    //private bool isGameover;
 
-    void Start()
+    //void Start()
+    //{
+    //    surviveTime = 0f;
+    //    isGameover = false;
+    //}
+
+
+    //void Update()
+    //{
+    //    if(!isGameover)
+    //    {
+    //        surviveTime += Time.deltaTime;
+    //        timeText.text = $"Time : {(int)surviveTime}";
+    //    }
+    //    else
+    //    {
+    //        if(Input.GetKeyDown(KeyCode.R))
+    //        {
+    //            SceneManager.LoadScene("TitleScene");
+    //        }
+    //    }
+    //}
+
+    //public void EndGame()
+    //{
+    //    isGameover = true;
+    //    gameoverText.SetActive(true);
+
+    //    float bestTime = PlayerPrefs.GetInt("Best Record");
+
+    //    if(surviveTime > bestTime)
+    //    {
+    //        bestTime = surviveTime;
+    //        PlayerPrefs.SetInt("Best Record", (int)surviveTime);
+    //    }
+    //        recordText.text = $"Best Record : {(int)bestTime}";
+    //}
+
+    public TextMeshProUGUI gameOverText;
+    public TextMeshProUGUI scoreText;
+    public TextMeshProUGUI bestScoreText;
+    public TextMeshProUGUI startText;
+    public GameObject player;
+
+    private float score;
+    public bool gameStart= false;
+
+    private void Start()
     {
-        surviveTime = 0f;
-        isGameover = false;
+        ResetGame();
+        startText.DOText("준비..", 1f);
+        bestScoreText.text = $"<rainb>최고 점수 : {PlayerPrefs.GetFloat("BestScore").ToString("F3")}"; 
     }
 
-    
-    void Update()
+    private void Update()
     {
-        if(!isGameover)
+        if (gameStart)
         {
-            surviveTime += Time.deltaTime;
-            timeText.text = $"Time : {(int)surviveTime}";
+            score += Time.deltaTime;
+            scoreText.text = $"현재 점수 : {score.ToString("F2")}";
         }
-        else
+
+        if(Input.GetKeyDown(KeyCode.R))
         {
-            if(Input.GetKeyDown(KeyCode.R))
-            {
-                SceneManager.LoadScene("TitleScene");
-            }
+            SceneManager.LoadScene("TitleScene");
         }
     }
 
-    public void EndGame()
+    public void GameOver()
     {
-        isGameover = true;
-        gameoverText.SetActive(true);
-
-        float bestTime = PlayerPrefs.GetInt("Best Record");
-
-        if(surviveTime > bestTime)
+        gameStart = false;
+        Bullet[] bullets = FindObjectsOfType<Bullet>();
+        foreach  (Bullet bullet in bullets)
         {
-            bestTime = surviveTime;
-            PlayerPrefs.SetInt("Best Record", (int)surviveTime);
+            Destroy(bullet);
+            //Destroy(bullet.gameObject);
         }
-            recordText.text = $"Best Record : {(int)bestTime}";
+        gameOverText.gameObject.SetActive(true);
+
+        float bestScore = PlayerPrefs.GetFloat("BestScore");
+
+        if( score > bestScore)
+        {
+            PlayerPrefs.SetFloat("BestScore", score);
+        }
+        bestScoreText.text = $"<rainb>최고 점수 : {bestScore.ToString("F3")}";
+    }
+
+    public void ResetGame()
+    {
+        StartCoroutine(StartGame());  //뭐하는 함수??
+    }
+
+    IEnumerator StartGame()
+    {
+        gameOverText.gameObject.SetActive(false);
+        player.transform.position = new Vector3(0,1,0);
+        player.SetActive(true);
+        yield return new WaitForSeconds(2);  
+        startText.text = "";
+        startText.DOText("시작!!", 1f);
+        yield return new WaitForSeconds(1);
+        startText.gameObject.SetActive(false);
+        gameStart = true;
     }
 }
