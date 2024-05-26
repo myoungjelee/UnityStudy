@@ -10,22 +10,23 @@ public class Bullet : MonoBehaviour
     void Start()
     {
         bulletRigidbody = GetComponent<Rigidbody>();
-        speed = Random.Range(5f, 20f);
+        speed = Random.Range(5f, 15f);
         bulletRigidbody.velocity = transform.forward * speed;
 
         Destroy(gameObject, 2.0f);
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision collision)
     {
-        if(other.tag == "Player")
+        if (collision.gameObject.tag == "Player")
         {
-            PlayerController playerController = other.GetComponent<PlayerController>();
+            PlayerController playerController = collision.gameObject.GetComponent<PlayerController>();
 
-            if(playerController != null)
+            if (playerController != null)
             {
                 playerController.Die();
             }
         }
     }
 }
+

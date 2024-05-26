@@ -66,6 +66,7 @@ public class GameManager : MonoBehaviour
     {
         ResetGame();
         startText.DOText("준비..", 1f);
+        //startText.text = "준비..";
         bestScoreText.text = $"<rainb>최고 점수 : {PlayerPrefs.GetFloat("BestScore").ToString("F3")}"; 
     }
 
@@ -74,7 +75,7 @@ public class GameManager : MonoBehaviour
         if (gameStart)
         {
             score += Time.deltaTime;
-            scoreText.text = $"현재 점수 : {score.ToString("F2")}";
+            scoreText.text = $"현재 점수 : {score.ToString("F3")}";
         }
 
         if(Input.GetKeyDown(KeyCode.R))
