@@ -2,31 +2,35 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bullet : MonoBehaviour
+namespace Dodge
 {
-    private Rigidbody bulletRigidbody;
-    public float speed = 8.0f;
-
-    void Start()
+    public class Bullet : MonoBehaviour
     {
-        bulletRigidbody = GetComponent<Rigidbody>();
-        speed = Random.Range(5f, 15f);
-        bulletRigidbody.velocity = transform.forward * speed;
+        private Rigidbody bulletRigidbody;
+        public float speed = 8.0f;
 
-        Destroy(gameObject, 2.0f);
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.tag == "Player")
+        void Start()
         {
-            DodgePlayer playerController = collision.gameObject.GetComponent<DodgePlayer>();
+            bulletRigidbody = GetComponent<Rigidbody>();
+            speed = Random.Range(5f, 15f);
+            bulletRigidbody.velocity = transform.forward * speed;
 
-            if (playerController != null)
+            Destroy(gameObject, 2.0f);
+        }
+
+        private void OnCollisionEnter(Collision collision)
+        {
+            if (collision.gameObject.tag == "Player")
             {
-                playerController.Die();
+                PlayerController playerController = collision.gameObject.GetComponent<PlayerController>();
+
+                if (playerController != null)
+                {
+                    playerController.Die();
+                }
             }
         }
     }
 }
+
 

@@ -21,5 +21,7 @@ public class TitleManager : MonoBehaviour
     public void StartGame()
     {
         SceneManager.LoadScene("Dodge");
+
+
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Security.Cryptography;
 using UnityEngine;
 
-public class UniRunBackGroundLoop : MonoBehaviour
+public class BackGroundLoop : MonoBehaviour
 {
     private float width;
     
