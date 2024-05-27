@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class DodgePlayer : MonoBehaviour
 {
     private Rigidbody playerRigidbody; // 이동에 사용할 리지드바디 컴포넌트 (물리)
     public float speed = 8; // 이동속도

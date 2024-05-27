@@ -106,7 +106,7 @@ public class GameManager : MonoBehaviour
 
     public void ResetGame()
     {
-        StartCoroutine(StartGame());  //뭐하는 함수??
+        StartCoroutine(StartGame());  //뭐하는 함수?? 얘를 사용하는 이유??
     }
 
     IEnumerator StartGame()

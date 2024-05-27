@@ -17,7 +17,7 @@ public class BulletSpawner : MonoBehaviour
     {
         bulletPrefab = Resources.Load<GameObject>("Prefabs/Bullet");
         currentTime = 0f; 
-        targetPlayer = FindObjectOfType<PlayerController>().transform; 
+        targetPlayer = FindObjectOfType<DodgePlayer>().transform; 
         spawnTime = Random.Range(spawnRateMin, spawnRateMax);
         gameManager = FindObjectOfType<GameManager>();
     }

@@ -20,7 +20,7 @@ public class Bullet : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
-            PlayerController playerController = collision.gameObject.GetComponent<PlayerController>();
+            DodgePlayer playerController = collision.gameObject.GetComponent<DodgePlayer>();
 
             if (playerController != null)
             {
