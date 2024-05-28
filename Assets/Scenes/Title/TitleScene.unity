@@ -670,8 +670,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7196b50bd5f72b94793cccc94c159c4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  titleText: {fileID: 0}
-  noticeText: {fileID: 0}
 --- !u!4 &1081821204
 Transform:
   m_ObjectHideFlags: 0
@@ -989,8 +987,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1102160530}
-        m_TargetAssemblyTypeName: OnClick, Assembly-CSharp
+      - m_Target: {fileID: 1081821203}
+        m_TargetAssemblyTypeName: TitleManager, Assembly-CSharp
         m_MethodName: OpenUniRunScene
         m_Mode: 1
         m_Arguments:
@@ -1552,8 +1550,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1102160530}
-        m_TargetAssemblyTypeName: OnClick, Assembly-CSharp
+      - m_Target: {fileID: 1081821203}
+        m_TargetAssemblyTypeName: TitleManager, Assembly-CSharp
         m_MethodName: OpenDodgeScene
         m_Mode: 1
         m_Arguments:
