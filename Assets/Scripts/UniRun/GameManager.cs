@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 namespace UniRun
 {
@@ -10,9 +11,12 @@ namespace UniRun
     {
         public static GameManager instance;
 
-        public static bool isGameOver;
+        public bool isGameOver;
         public TextMeshProUGUI scoreText;
         public TextMeshProUGUI gameoverText;
+        //public TextMeshProUGUI lifeText;
+        public Image[] lifes;
+        private int lifeCount = 5;
 
         private int score = 0;
 
@@ -21,13 +25,16 @@ namespace UniRun
             if (instance == null)
             {
                 instance = this;
-                DontDestroyOnLoad(gameObject);
+                // DontDestroyOnLoad(gameObject);
             }
             else
             {
                 Debug.LogWarning("두개 이상의 매니저가 존재합니다.");
                 Destroy(gameObject);
             }
+
+            //lifes = new Image[lifeCount];
+
         }
 
         private void Update()
@@ -51,6 +58,38 @@ namespace UniRun
         {
             isGameOver = true;
             gameoverText.gameObject.SetActive(true);
+        }
+
+        public int GetLifeCount()
+        {
+            return lifeCount;
+        }
+
+        public void RefreshLifeCount(int lifeCount)
+        {
+            //for (int i = 0; i < lifes.Length; i++)
+            //{
+            //    if (i < lifeCount)
+            //    {
+            //        lifes[i].gameObject.SetActive(true);
+            //    }
+            //    else
+            //    {
+            //        lifes[i].gameObject.SetActive(false);
+            //    }
+            //}
+            //if (lifeCount < 5)
+            //{
+            //    lifes[lifeCount].gameObject.SetActive(false);
+            //}
+
+            for (int i = 0; i < lifes.Length; i++)
+            {
+                if (i >= lifeCount)
+                {
+                    lifes[i].gameObject.SetActive(false);
+                }
+            }
         }
     }
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace UniRun
 {
-   public class PlayerController : MonoBehaviour
+    public class PlayerController : MonoBehaviour
     {
         public AudioClip deathAudio;
         public AudioClip jumpAudio;
@@ -15,18 +15,25 @@ namespace UniRun
         private bool isDead = false;
 
         private Rigidbody2D playerRigidbody;
-        private CircleCollider2D playerCollider;
+        //private CircleCollider2D playerCollider;
         private Animator animator;
         private AudioSource audioPlayer;
 
         private const int MAX_JUMP_COUNT = 2;
+
+        private int currentLifeCount;
+        private SpriteRenderer spriteRenderer;
+        private bool isBlink = false;
+        private Coroutine blinkCoroutine;
 
         private void Start()
         {
             playerRigidbody = GetComponent<Rigidbody2D>();
             animator = GetComponent<Animator>();
             audioPlayer = GetComponent<AudioSource>();
-            playerCollider = GetComponent<CircleCollider2D>();
+            // playerCollider = GetComponent<CircleCollider2D>();
+            spriteRenderer = GetComponent<SpriteRenderer>();    
+            currentLifeCount = GameManager.instance.GetLifeCount();
         }
 
         private void Update()
@@ -74,7 +81,6 @@ namespace UniRun
             isDead = true;
 
             GameManager.instance.OnPlayerDead();
-
         }
 
         private void Jump()
@@ -87,6 +93,28 @@ namespace UniRun
         private void OnTriggerEnter2D(Collider2D collision)
         {
             if (collision.tag == "Dead" && !isDead)
+            {
+                currentLifeCount = 0;
+            }
+            else if (collision.tag == "Obstacle" && !isDead)
+            {
+                //if (!isBlink)
+                //{
+                //    currentLifeCount--;
+
+                //    isBlink = true;
+                //    InvokeRepeating("Blinking", 0f, 0.5f);
+                //    Invoke("StopBlinking", 5f);
+                //}
+                if (!isBlink)
+                {
+                    TaskDamage();
+                }
+            }
+            
+            GameManager.instance.RefreshLifeCount(currentLifeCount);
+
+            if(currentLifeCount <= 0)
             {
                 Die();
             }
@@ -109,6 +137,47 @@ namespace UniRun
         {
             isGrounded = false;
         }
-    }
 
+        void Blinking()
+        {
+            float newAlpha = (spriteRenderer.color.a == 1.0f) ? 0.5f : 1.0f;
+            spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, newAlpha);
+        }
+
+        void StopBlinking()
+        {
+            isBlink = false;
+            CancelInvoke("Blinking");
+            spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, 1.0f);
+        }
+
+        void TaskDamage()
+        {
+            if(blinkCoroutine != null)
+            {
+                StopCoroutine(blinkCoroutine);
+            }
+
+            blinkCoroutine = StartCoroutine(BlinkEffect());          
+        }
+
+        IEnumerator BlinkEffect()
+        {
+            currentLifeCount--;
+            isBlink = true;
+            float endTime = Time.time + 5f;
+
+            while(Time.time < endTime)
+            {
+                spriteRenderer.color = new Color(1, 1, 1, 0.5f);
+                yield return new WaitForSeconds(0.5f);
+
+                spriteRenderer.color = new Color(1, 1, 1, 1);
+                yield return new WaitForSeconds(0.5f);
+            }
+
+            spriteRenderer.color = new Color(1, 1, 1, 1);
+            isBlink = false;
+        }
+    }
 }

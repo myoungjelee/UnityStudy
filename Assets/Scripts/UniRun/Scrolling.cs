@@ -1,13 +1,20 @@
+using Dodge;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Scrolling : MonoBehaviour
+namespace UniRun
 {
-    public float speed = 10f;
-
-    void Update()
+    public class Scrolling : MonoBehaviour
     {
-        transform.Translate(Vector3.left * speed * Time.deltaTime);
+        public float speed = 10f;
+
+        void Update()
+        {
+            if (GameManager.instance.isGameOver) return;
+
+            transform.Translate(Vector3.left * speed * Time.deltaTime);
+        }
     }
 }
+
