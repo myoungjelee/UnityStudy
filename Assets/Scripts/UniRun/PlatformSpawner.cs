@@ -37,27 +37,30 @@ namespace UniRun
 
         private void Update()
         {
-            if(GameManager.instance.isGameOver == true)
+            if(GameManager.instance.isGameOver || !GameManager.instance.isGameStart)
             {
                 return;
             }
-
-            if(Time.time >= lastSpawnTime + spawnTime)
+            
+            if(GameManager.instance.isGameStart)
             {
-                lastSpawnTime = Time.time;  //Time.time == 게임이 시작된 경과시간
-                spawnTime = Random.Range(spawnTimeMin, spawnTimeMax);
-
-                yPos = Random.Range(yMin, yMax);
-                platforms[currentIdx].SetActive(false);  // OnEnable() 활성화 해주기 위해
-                platforms[currentIdx].SetActive(true);
-
-                platforms[currentIdx].transform.position = new Vector2(xPos, yPos);
-
-                currentIdx++;
-
-                if(currentIdx >= platforms.Length )
+                if (Time.time >= lastSpawnTime + spawnTime)
                 {
-                    currentIdx = 0;
+                    lastSpawnTime = Time.time;  //Time.time == 게임이 시작된 경과시간
+                    spawnTime = Random.Range(spawnTimeMin, spawnTimeMax);
+
+                    yPos = Random.Range(yMin, yMax);
+                    platforms[currentIdx].SetActive(false);  // OnEnable() 활성화 해주기 위해
+                    platforms[currentIdx].SetActive(true);
+
+                    platforms[currentIdx].transform.position = new Vector2(xPos, yPos);
+
+                    currentIdx++;
+
+                    if (currentIdx >= platforms.Length)
+                    {
+                        currentIdx = 0;
+                    }
                 }
             }
         }

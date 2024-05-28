@@ -6,9 +6,12 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Dodge/TitleScene.unity
+    path: Assets/Scenes/Title/TitleScene.unity
     guid: 99121356cede7c548b9a3ce3225b8ec4
   - enabled: 1
     path: Assets/Scenes/Dodge/Dodge.unity
     guid: 4d210c9a61131844580ba7f75e6d11a8
+  - enabled: 1
+    path: Assets/Scenes/UniRun/UniRun.unity
+    guid: 285b90ea734e95c408b18bd648913462
   m_configObjects: {}

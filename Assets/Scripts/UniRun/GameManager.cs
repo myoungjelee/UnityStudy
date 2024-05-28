@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -10,22 +11,26 @@ namespace UniRun
     public class GameManager : MonoBehaviour
     {
         public static GameManager instance;
-
+       
         public bool isGameOver;
+        public bool isGameStart;
         public TextMeshProUGUI scoreText;
+        public TextMeshProUGUI bestScoreText;
         public TextMeshProUGUI gameoverText;
-        //public TextMeshProUGUI lifeText;
+        public TextMeshProUGUI startText;
         public Image[] lifes;
         private int lifeCount = 5;
 
         private int score = 0;
+        private int bestScore = 0;
+        
 
-        private void Awake()
+       private void Awake()
         {
             if (instance == null)
             {
                 instance = this;
-                // DontDestroyOnLoad(gameObject);
+                //DontDestroyOnLoad(gameObject);
             }
             else
             {
@@ -37,11 +42,18 @@ namespace UniRun
 
         }
 
+        private void Start()
+        {
+            ResetGame();
+            startText.DOText("준비..", 1f);
+            bestScoreText.text = $"Best Score : {PlayerPrefs.GetInt("UniRunBestScore")}";
+        }
+
         private void Update()
         {
             if (isGameOver && Input.GetKeyDown(KeyCode.R))
             {
-                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+                SceneManager.LoadScene("TitleScene");
             }
         }
 
@@ -51,6 +63,13 @@ namespace UniRun
             {
                 score += newScore;
                 scoreText.text = $"Score: {score}";
+
+                bestScore = PlayerPrefs.GetInt("UniRunBestScore");
+                if (score > bestScore)
+                {
+                    PlayerPrefs.SetInt("UniRunBestScore", score);
+                    scoreText.text = $"<rainb>Score: {score}";
+                }
             }
         }
 
@@ -58,6 +77,8 @@ namespace UniRun
         {
             isGameOver = true;
             gameoverText.gameObject.SetActive(true);
+
+
         }
 
         public int GetLifeCount()
@@ -90,6 +111,29 @@ namespace UniRun
                     lifes[i].gameObject.SetActive(false);
                 }
             }
+        }
+        public void ResetGame()
+        {
+            StartCoroutine(StartGame());  
+        }
+
+        IEnumerator StartGame()
+        {
+            gameoverText.gameObject.SetActive(false);
+            //player.transform.position = new Vector3(0, 1, 0);
+            //player.SetActive(true);
+            yield return new WaitForSeconds(2);
+            startText.text = "";
+            startText.DOText("시작!!", 1f);
+            yield return new WaitForSeconds(1);
+            startText.gameObject.SetActive(false);
+            //gameStart = true;
+            Scrolling[] scrollings = FindObjectsOfType<Scrolling>();
+            foreach (Scrolling scrolling in scrollings)
+            {
+                scrolling.enabled = true;
+            }
+            isGameStart = true;
         }
     }
 }
